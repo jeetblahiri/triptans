@@ -1,9 +1,9 @@
 
-# NeuroDx – Flask app (ready for Render/Heroku/Railway)
+# Triptans – Flask app (ready for Render/Heroku/Railway)
 
 ## Project structure
 ```
-neurodx/
+triptans/
 ├─ app.py
 ├─ requirements.txt
 ├─ Procfile
