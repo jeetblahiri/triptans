@@ -5,12 +5,12 @@ app = Flask(__name__)
 
 # 1️⃣  List each question sentence in order
 RAW_QUESTIONS = [
-    "Do you have frequent hyperacidity problem or vomiting or loose motions?",
-    "Do you have very severe migraine very often?",
-    "Does your migraine headache last for more than 4 hrs more often?",
-    "Do you have migraine headaches more than 8 days a month?",
-    "Do you take triptans 2 hrs after onset of migraine headache more often?",
-    "Are your migraine headaches limit your daily activities very often?",
+    "Do you have severe dizziness or depression with migraine headaches?",
+    "Do you have very severe intolerable headache very often?",
+    "Do you have migraine headache last for more than 4 hours more often?",
+    "Do you have migraine headaches for more than 8 days a month?",
+    "Do you take triptans 2 hours after onset of migraine headache more often?",
+    "Do you have migraine headaches limiting your daily activities very often?",
     "Do you often take triptans more than 10 days in a month for headaches?"
 ]
 
@@ -20,20 +20,32 @@ KEYS      = [q["key"] for q in QUESTIONS]
 # ──────────────────────────────────────────────────────────────
 # 3️⃣  Decision engine – implements the provided rules
 
-def diagnose(ans):
-    # Normalize answers into YES/NO strings
+def diagnose(ans, KEYS):
+    # indices for clarity (Q1..Q7 are 0-based here)
+    Q1, Q2, Q3, Q4, Q5, Q6, Q7 = range(7)
+    drivers = [Q1, Q3, Q4, Q5, Q7]
+
+    # Normalize answers
     answers = ["YES" if ans[k] else "NO" for k in KEYS]
-    yes_count = answers.count("YES")
+    total_yes = answers.count("YES")
+    yes_in_drivers = sum(answers[i] == "YES" for i in drivers)
 
-    # Rule 1: If Q5 or Q7 is YES → High probability of Triptans Nonresponder
-    if answers[4] == "YES" or answers[6] == "YES":
-        return "High probability of Triptans Nonresponder"
+    # Rule 1 & 2
+    if yes_in_drivers >= 2:
+        return "High probability of Triptans Refractory"
+    if yes_in_drivers == 1:
+        return "High probability of Triptans Nonresponders"
 
-    # Rule 2: If 2 or more YES → High probability of Triptans Nonresponder
-    if yes_count >= 2:
-        return "High probability of Triptans Nonresponder"
+    # Rule 3
+    if total_yes == 0:
+        return "Probable Triptans responder"
 
-    # Rule 3 & 4: If 0 or 1 YES → Probable Triptans responder
+    # Rule 4 (only Q2 and/or Q6 are YES)
+    if all(answers[i] == "NO" for i in drivers) and \
+       all(answers[i] == "NO" for i in range(7) if i not in (Q2, Q6)):
+        return "Probable Triptans responder"
+
+    # Default (shouldn’t be hit)
     return "Probable Triptans responder"
 
 # ──────────────────────────────────────────────────────────────
