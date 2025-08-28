@@ -20,13 +20,13 @@ KEYS      = [q["key"] for q in QUESTIONS]
 # ──────────────────────────────────────────────────────────────
 # 3️⃣  Decision engine – implements the provided rules
 
-def diagnose(ans, KEYS):
-    # indices for clarity (Q1..Q7 are 0-based here)
+def diagnose(ans):
+    # Question indices (0-based: Q1=0, Q2=1, ..., Q7=6)
     Q1, Q2, Q3, Q4, Q5, Q6, Q7 = range(7)
-    drivers = [Q1, Q3, Q4, Q5, Q7]
+    drivers = {Q1, Q3, Q4, Q5, Q7}   # driver questions set
 
-    # Normalize answers
-    answers = ["YES" if ans[k] else "NO" for k in KEYS]
+    # Normalize answers into "YES"/"NO"
+    answers = ["YES" if ans.get(k) else "NO" for k in KEYS]
     total_yes = answers.count("YES")
     yes_in_drivers = sum(answers[i] == "YES" for i in drivers)
 
@@ -36,17 +36,18 @@ def diagnose(ans, KEYS):
     if yes_in_drivers == 1:
         return "High probability of Triptans Nonresponders"
 
-    # Rule 3
+    # Rule 3: If all NO
     if total_yes == 0:
         return "Probable Triptans responder"
 
-    # Rule 4 (only Q2 and/or Q6 are YES)
-    if all(answers[i] == "NO" for i in drivers) and \
-       all(answers[i] == "NO" for i in range(7) if i not in (Q2, Q6)):
+    # Rule 4: If YES only in Q2 and/or Q6
+    yes_indices = {i for i, val in enumerate(answers) if val == "YES"}
+    if yes_indices.issubset({Q2, Q6}):
         return "Probable Triptans responder"
 
-    # Default (shouldn’t be hit)
+    # Fallback
     return "Probable Triptans responder"
+
 
 # ──────────────────────────────────────────────────────────────
 # 4️⃣  Routes
