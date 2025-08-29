@@ -22,32 +22,19 @@ KEYS      = [q["key"] for q in QUESTIONS]
 
 def diagnose(ans):
     # Question indices (0-based: Q1=0, Q2=1, ..., Q7=6)
-    Q1, Q2, Q3, Q4, Q5, Q6, Q7 = range(7)
-    drivers = {Q1, Q3, Q4, Q5, Q7}   # driver questions set
-
-    # Normalize answers into "YES"/"NO"
     answers = ["YES" if ans.get(k) else "NO" for k in KEYS]
+    Q2 = answers[1]
+    Q5 = answers[4]
+    Q7 = answers[6]
     total_yes = answers.count("YES")
-    yes_in_drivers = sum(answers[i] == "YES" for i in drivers)
 
-    # Rule 1 & 2
-    if yes_in_drivers >= 2:
-        return "High probability of Triptans Refractory"
-    if yes_in_drivers == 1:
-        return "High probability of Triptans Nonresponders"
-
-    # Rule 3: If all NO
-    if total_yes == 0:
-        return "Probable Triptans responder"
-
-    # Rule 4: If YES only in Q2 and/or Q6
-    yes_indices = {i for i, val in enumerate(answers) if val == "YES"}
-    if yes_indices.issubset({Q2, Q6}):
-        return "Probable Triptans responder"
-
-    # Fallback
-    return "Probable Triptans responder"
-
+    if Q2 == "YES" and (Q5 == "YES" or Q7 == "YES"):
+        return "Triptan refractory"
+    if Q5 == "YES" or Q7 == "YES":
+        return "Triptan nonresponder"
+    if total_yes >= 2:
+        return "Triptan nonresponder"
+    return "Triptan responder"
 
 # ──────────────────────────────────────────────────────────────
 # 4️⃣  Routes
