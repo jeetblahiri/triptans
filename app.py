@@ -5,11 +5,11 @@ app = Flask(__name__)
 
 # 1️⃣  List each question sentence in order
 RAW_QUESTIONS = [
-    "Do you have severe dizziness or depression with migraine headaches?",
+    "Do you experience severe dizziness, photophobia, or vomiting/phonophobia with migraine headaches?",
     "Do you have very severe intolerable headache very often?",
     "Do you have migraine headache last for more than 4 hours more often?",
     "Do you have migraine headaches for more than 8 days a month?",
-    "Do you take triptans 2 hours after onset of migraine headache more often?",
+    "Do you frequently take additional painkillers with triptans?",
     "Do you have migraine headaches limiting your daily activities very often?",
     "Do you often take triptans more than 10 days in a month for headaches?"
 ]
