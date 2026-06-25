@@ -44,6 +44,13 @@
       margin: 20px 0;
     }
 
+    .score-box {
+      background-color: #f7fbff;
+      border: 1px solid #cfe6ff;
+      padding: 12px 15px;
+      margin: 20px 0;
+    }
+
     ul {
       list-style-type: none;
       padding-left: 0;
@@ -81,15 +88,20 @@
       {{ decision }}
     </div>
 
+    <div class="score-box">
+      Total Score: <strong>{{ score }}/{{ max_score }}</strong><br>
+      Interpretation: Score &gt; {{ failure_threshold }} = Triptan Failure; Score &le; {{ failure_threshold }} = Triptan Responder.
+    </div>
+
     <h3>Your Answers:</h3>
     <ul>
-      {% for q, a in answers %}
-        <li><strong>{{ q }}</strong> – {{ a }}</li>
+      {% for q, a, points in answers %}
+        <li><strong>{{ q }}</strong> - {{ a }} ({{ points }} point{% if points != 1 %}s{% endif %})</li>
       {% endfor %}
     </ul>
 
     <div class="back-link">
-      <a href="/">← Go back and recheck symptoms</a>
+      <a href="/">&larr; Go back and recheck symptoms</a>
     </div>
   </div>
 </body>

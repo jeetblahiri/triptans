@@ -52,6 +52,12 @@
       margin-right: 20px;
     }
 
+    .score {
+      color: #555;
+      font-size: 0.9em;
+      margin-left: 8px;
+    }
+
     .submit-btn {
       display: block;
       width: 100%;
@@ -90,7 +96,7 @@
     <form action="/diagnose" method="post">
       {% for q in questions %}
         <div class="question">
-          {{ loop.index }}. {{ q.text }}
+          {{ loop.index }}. {{ q.text }} <span class="score">Score: {{ q.score }}</span>
           <div class="options">
             <label><input type="radio" name="{{ q.key }}" value="yes" required> Yes</label>
             <label><input type="radio" name="{{ q.key }}" value="no"> No</label>
