@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Triptans Migraine Response</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="questionnaire" aria-labelledby="page-title">
+      <div class="intro">
+        <p class="eyebrow">Triptan Response Calculator</p>
+        <h1 id="page-title">Migraine Questionnaire</h1>
+        <p class="summary">Seven yes/no items, maximum score 8. Score &gt; 4 indicates Triptan Failure.</p>
+      </div>
+
+      <form id="questionnaire-form" class="question-list">
+        <div id="questions"></div>
+        <button class="primary-action" type="submit">Calculate Result</button>
+      </form>
+    </section>
+
+    <section id="result-panel" class="result-panel" aria-labelledby="result-title" hidden>
+      <h2 id="result-title">Result</h2>
+      <div id="decision" class="decision"></div>
+      <div id="score" class="score-line"></div>
+      <p class="criteria">Score &gt; 4 = Triptan Failure; Score &le; 4 = Triptan Responder.</p>
+      <ul id="answer-summary" class="answer-summary"></ul>
+      <button id="reset-button" class="secondary-action" type="button">Recheck Symptoms</button>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
