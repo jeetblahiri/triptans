@@ -1,6 +1,6 @@
-# Triptans - GitHub Pages app
+# Triptans - static deployment app
 
-Static migraine response questionnaire for GitHub Pages.
+Static migraine response questionnaire for GitHub Pages and Vercel.
 
 ## Project structure
 
@@ -11,7 +11,11 @@ triptans/
 │  ├─ styles.css
 │  ├─ app.js
 │  └─ model.mjs
+├─ scripts/
+│  └─ build-vercel.mjs
 ├─ .github/workflows/pages.yml
+├─ package.json
+├─ vercel.json
 └─ test_static_model.mjs
 ```
 
@@ -21,15 +25,33 @@ The app is fully static. Serve the `site/` folder locally to test the same shape
 GitHub Pages will host:
 
 ```bash
-python3 -m http.server 8080 --directory site
-# open http://localhost:8080
+npm run dev
+# open http://localhost:3000
 ```
 
 ## Test
 
 ```bash
-node test_static_model.mjs
+npm test
 ```
+
+## Build for Vercel
+
+```bash
+npm run build
+```
+
+The build copies `site/` to `dist/`. Vercel deploys `dist/` using the settings in
+`vercel.json`.
+No external npm dependencies are required.
+Vercel import settings can be left as:
+
+| Setting | Value |
+| --- | --- |
+| Framework Preset | Other |
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
+| Install Command | Auto / default |
 
 ## Model scoring
 
@@ -69,3 +91,10 @@ If this is the first Pages deployment for the repository, open GitHub:
 2. Set `Build and deployment` source to `Deploy from a branch`.
 3. Select branch `gh-pages` and folder `/ (root)`.
 4. Save, then wait for GitHub Pages to publish the site.
+
+## Vercel deploy
+
+1. Import `jeetblahiri/triptans` in Vercel.
+2. Keep the project root as the repository root.
+3. Vercel will read `vercel.json`, run `npm run build`, and publish `dist/`.
+4. After deployment, Vercel will provide a production URL for the calculator.
