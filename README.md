@@ -54,8 +54,8 @@ Maximum total score is 8.
 
 ## GitHub Pages deploy
 
-This repository deploys the `site/` folder with GitHub Actions. On each push to
-`main`, `.github/workflows/pages.yml` publishes the app to GitHub Pages.
+This repository publishes the `site/` folder to a `gh-pages` branch. On each push
+to `main`, `.github/workflows/pages.yml` updates that branch automatically.
 
 Expected URL:
 
@@ -66,5 +66,6 @@ https://jeetblahiri.github.io/triptans/
 If this is the first Pages deployment for the repository, open GitHub:
 
 1. Go to `Settings` -> `Pages`.
-2. Set `Build and deployment` source to `GitHub Actions`.
-3. Open the `Actions` tab and rerun the latest `Deploy GitHub Pages` workflow if it did not start automatically.
+2. Set `Build and deployment` source to `Deploy from a branch`.
+3. Select branch `gh-pages` and folder `/ (root)`.
+4. Save, then wait for GitHub Pages to publish the site.
